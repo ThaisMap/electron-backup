@@ -1,0 +1,31 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello World!</title>
+    <link rel="stylesheet" href="estilo.css" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="script-src 'self' 'unsafe-inline';"
+    />
+    <script src="src/script.js" defer></script>
+  </head>
+  <body>
+    <header><h1>Backupeando</h1></header>
+
+    <main>
+      <p>Que pastas deseja copiar?</p>
+      <p>
+        <input type="text" name="inputPasta" id="inputPasta" />
+        <input type="button" value="Adicionar" onclick="addPasta()" />
+      </p>
+      <section id="selecao">
+        <div>
+          <select id="pastasSelecionadas" size="10"></select>
+          <input type="button" value="Remover pasta" onclick="remover()" />
+        </div>
+
+        <input type="button" value="Copiar" onclick="copiar()" />
+      </section>
+    </main>
+  </body>
+</html>
