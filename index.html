@@ -9,22 +9,33 @@
     />
     <script src="src/script.js" defer></script>
   </head>
-  <body>
+  <body onload="carregar()">
     <header><h1>Backupeando</h1></header>
 
     <main>
-      <p>Que pastas deseja copiar?</p>
-      <p>
-        <input type="text" name="inputPasta" id="inputPasta" />
-        <input type="button" value="Adicionar" onclick="addPasta()" />
-      </p>
-      <section id="selecao">
-        <div>
-          <select id="pastasSelecionadas" size="10"></select>
-          <input type="button" value="Remover pasta" onclick="remover()" />
-        </div>
+      <section id="config">
+        <article id="input">
+          <p>Que pastas deseja copiar?</p>
+          <p>
+            <input type="text" name="inputPasta" id="inputPasta" />
+            <input type="button" value="Adicionar" onclick="addPasta()" />
+          </p>
+        </article>
+        <article id="selecao">
+          <div>
+            <select id="pastasSelecionadas" size="10"></select>
+            <input type="button" value="Remover pasta" onclick="remover()" />
+          </div>
 
-        <input type="button" value="Copiar" onclick="copiar()" />
+          <input type="button" value="Salvar pastas" onclick="salvar()" />
+          <input type="button" value="Copiar" onclick="copiar()" />
+        </article>
+      </section>
+
+      <section id="log">
+        <article id="txtLog">
+          <p></p>
+        </article>
       </section>
     </main>
   </body>
