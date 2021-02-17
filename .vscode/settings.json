@@ -1,5 +1,9 @@
 {
-    "editor.formatOnSave": true,
     "prettier.singleQuote": true,
-    "prettier.trailingComma": "all"
+    "prettier.trailingComma": "all",
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
 }

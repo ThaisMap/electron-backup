@@ -1,31 +1,27 @@
 const fs = require('fs');
 const alumna = require('@alumna/reflect');
+const path = require('path');
+const { ipcRenderer } = require('electron');
 
 let ulista = document.querySelector('#pastasSelecionadas');
 let divSelecao = document.querySelector('#selecao');
 let log = document.querySelector('#txtLog>p');
 
 let pastas = [];
+let destino = '';
 
 function addPasta() {
-  let input = document.querySelector('input#inputPasta');
-  let valor = input.value;
-
-  fs.access(valor, fs.constants.F_OK, (err) => {
-    if (err) {
-      console.error('Pasta nao existe');
-    } else {
-      if (pastas.indexOf(valor) >= 0) {
-        console.error('Pasta repetida');
-      } else {
-        pastas.push(valor);
-        exibirPastas();
-      }
-    }
-  });
+  ipcRenderer.send('source:select');
 }
 
-function exibirPastas() {
+ipcRenderer.on('source:selected', (e, data) => {
+  data.forEach((pasta) => {
+    pastas.push(pasta);
+  });
+  exibirOrigens();
+});
+
+function exibirOrigens() {
   ulista.innerHTML = '';
 
   if (pastas.length > 0) {
@@ -54,17 +50,17 @@ function incluirLog(texto) {
 }
 
 async function fazerBackup(folderName) {
-  let folderToCreate = folderName.split('\\').pop();
-  let destino = `./teste/destino/${folderToCreate}`;
+  let rootFolder = folderName.replace('\\', '/').split('/').pop();
+  let destinoComRoot = path.join(destino, rootFolder);
 
-  fs.mkdirSync(destino, { recursive: true }, (err) => {
+  fs.mkdirSync(destinoComRoot, { recursive: true }, (err) => {
     if (err) throw err;
   });
 
   let { res, err } = await alumna({
     src: folderName,
 
-    dest: destino,
+    dest: destinoComRoot,
 
     // (OPTIONAL) Default to 'true'
     recursive: true,
@@ -86,22 +82,39 @@ async function fazerBackup(folderName) {
 
 function remover() {
   pastas.splice(ulista.selectedIndex, 1);
-  exibirPastas();
+  exibirOrigens();
 }
 
 function carregar() {
   fs.readFile('./config/sources.json', 'utf8', (err, data) => {
     if (err) throw err;
-    pastas = JSON.parse(data).paths;
-    exibirPastas();
+    let lido = JSON.parse(data);
+    pastas = lido.sources;
+    destino = lido.destination;
+    exibirOrigens();
+    exibirDestino();
   });
 }
 
 function salvar() {
-  let obj = { paths: pastas };
+  let obj = { sources: pastas, destination: destino };
   let json = JSON.stringify(obj);
   fs.writeFile('./config/sources.json', json, (err) => {
     if (err) throw err;
-    alert('Configuração de pastas salva!');
+    alert('Configuração salva!');
   });
+}
+
+function escDestino() {
+  ipcRenderer.send('destination:select');
+}
+
+ipcRenderer.on('destination:selected', (e, data) => {
+  destino = data[0];
+  exibirDestino();
+});
+
+function exibirDestino() {
+  let spanDestino = document.querySelector('#destino');
+  spanDestino.innerText = destino;
 }

@@ -1,42 +1,48 @@
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Hello World!</title>
-    <link rel="stylesheet" href="estilo.css" />
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="script-src 'self' 'unsafe-inline';"
-    />
-    <script src="src/script.js" defer></script>
-  </head>
-  <body onload="carregar()">
-    <header><h1>Backupeando</h1></header>
 
-    <main>
-      <section id="config">
-        <article id="input">
-          <p>Que pastas deseja copiar?</p>
+<head>
+  <meta charset="UTF-8" />
+  <title>Hello World!</title>
+  <link rel="stylesheet" href="estilo.css" />
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+  <script src="src/script.js" defer></script>
+</head>
+
+<body onload="carregar()">
+  <header>
+    <h1>Backupeando</h1>
+  </header>
+
+  <main>
+    <section id="config">
+      <article id="input">
+        <p>Que pastas deseja copiar?</p>
+        <p>
+          <input type="button" value="Selecionar Pastas" onclick="addPasta()" />
+        </p>
+      </article>
+      <article id="selecao">
+        <select id="pastasSelecionadas" size="10"></select>
+        <div>
           <p>
-            <input type="text" name="inputPasta" id="inputPasta" />
-            <input type="button" value="Adicionar" onclick="addPasta()" />
+            <input type="button" value="Remover selecionada" onclick="remover()" />
+            <input type="button" value="Salvar configuração de pastas" onclick="salvar()" />
           </p>
-        </article>
-        <article id="selecao">
-          <div>
-            <select id="pastasSelecionadas" size="10"></select>
-            <input type="button" value="Remover pasta" onclick="remover()" />
-          </div>
-
-          <input type="button" value="Salvar pastas" onclick="salvar()" />
+          <p>
+            <input type="button" value="Alterar destino" onclick="escDestino()" />
+            <span id="destino"></span>
+          </p>
           <input type="button" value="Copiar" onclick="copiar()" />
-        </article>
-      </section>
+        </div>
+      </article>
+    </section>
 
-      <section id="log">
-        <article id="txtLog">
-          <p></p>
-        </article>
-      </section>
-    </main>
-  </body>
+    <section id="log">
+      <article id="txtLog">
+        <p></p>
+      </article>
+    </section>
+  </main>
+</body>
+
 </html>

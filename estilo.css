@@ -45,8 +45,3 @@ footer {
   margin: auto;
   border: 1px solid rgba(0, 0, 0, 0.6);
 }
-
-#txtLog > p {
-  padding: 0;
-  text-indent: 10px;
-}
