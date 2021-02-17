@@ -37,12 +37,13 @@ function exibirOrigens() {
   }
 }
 
-function copiar() {
+async function copiar() {
   log.innerHTML = '';
   incluirLog('*** Backup Iniciado ***');
-  pastas.forEach((pasta) => {
-    fazerBackup(pasta);
-  });
+  for (const pasta of pastas) {
+    await fazerBackup(pasta);
+  }
+  incluirLog('*** Backup Finalizado ***');
 }
 
 function incluirLog(texto) {
@@ -59,18 +60,12 @@ async function fazerBackup(folderName) {
 
   let { res, err } = await alumna({
     src: folderName,
-
     dest: destinoComRoot,
-
     // (OPTIONAL) Default to 'true'
     recursive: true,
-
     // (OPTIONAL) Default to 'true'
     // Delete in dest the non-existent files in src
     delete: false,
-
-    // (OPTIONAL) Array with files and folders not to reflect
-    // exclude: ['skip-this-file.txt', 'skip/this/directory'],
   });
 
   if (err) incluirLog(err);
